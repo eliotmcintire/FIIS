@@ -1,0 +1,6 @@
+## Only the project scripts are tracked; data, inputs, cache, outputs, modules and logs are made by running them.
+/*
+!/.gitignore
+!/README.md
+!/global.R
+!/experiment.R
