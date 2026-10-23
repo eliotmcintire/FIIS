@@ -44,7 +44,7 @@ out <- SpaDES.project::setupProject(
               , "camillegiuliano/LandRCBM_partialDisturbance@main"),     # removal and replanting; no development branch
   times = list(start = 2025, end = .endYear),
   ## the project's own library; module reqdPkgs are added by setupProject
-  packages = c("PredictiveEcology/SpaDES.core@development (>= 3.2.1.9002)" # the `events` barrier used for stage 1
+  packages = c("PredictiveEcology/SpaDES.core@development (>= 3.2.1.9053)" # `events` barrier for stage 1; reruns overwrite yearly tifs (#510)
                , "PredictiveEcology/timberSupply@development (>= 0.0.0.9004)" # bcManagementUnit(), for the study area; "TSA2" works
                , "PredictiveEcology/LandR@development (>= 1.2.0.9064)" # the SCANFI grid below; species list fix (#287)
                , "terra", "sf"),
