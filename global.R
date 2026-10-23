@@ -27,7 +27,7 @@ out <- SpaDES.project::setupProject(
                      .stage1Only = FALSE),       # TRUE: data prep, yield tables and THLB only, no harvest;
                                                  # a later full run picks these up from the cache
   ## Each unit has its own inputs, outputs and scratch folders, so units can run at once
-  paths = list(inputPath = file.path("inputs", .unit),
+  paths = list(inputPath = file.path("inputs"),
                outputPath = file.path("outputs", .bcLevel, .unit, paste0(.harvestType, "_R", .rotationAge),
                                       if (isTRUE(.balanceGrowth)) "" else "noBalanceGrowth"),
                scratchPath = file.path("scratch", .unit)),
@@ -45,7 +45,7 @@ out <- SpaDES.project::setupProject(
   times = list(start = 2025, end = .endYear),
   ## the project's own library; module reqdPkgs are added by setupProject
   packages = c("PredictiveEcology/SpaDES.core@development (>= 3.2.1.9002)" # the `events` barrier used for stage 1
-               , "PredictiveEcology/timberSupply@development (>= 0.0.0.9002)" # bcManagementUnit(), for the study area
+               , "PredictiveEcology/timberSupply@development (>= 0.0.0.9004)" # bcManagementUnit(), for the study area; "TSA2" works
                , "PredictiveEcology/LandR@development (>= 1.2.0.9064)" # the SCANFI grid below; species list fix (#287)
                , "terra", "sf"),
   options = list(
@@ -74,11 +74,10 @@ out <- SpaDES.project::setupProject(
     terra::as.polygons(terra::ext(-120.67, -118.53, 50.53, 51.87), crs = "EPSG:4326") # ~150 x 150 km around -119.6, 51.2
   },
   ## the model grid: SCANFI 2020 land cover, kept in SCANFI's projection, aggregated 30 m -> 240 m
-  rasterToMatch = {
-    { LandR::prepInputs_SCANFI_LCC_FAO(year = 2020, destinationPath = paths$inputPath,
-                                                   cropTo = .area, maskTo = .area, projectTo = NA) |>
-    terra::aggregate(fact = 240 / 30) } |> reproducible::Cache() 
-    }, 
+  ## (Cache a plain call: its key then includes .area. A `{ ... } |> Cache()` block gave every unit the same grid.)
+  rasterToMatch = reproducible::Cache(LandR::prepInputs_SCANFI_LCC_FAO(year = 2020, destinationPath = paths$inputPath,
+                                                                       cropTo = .area, maskTo = .area, projectTo = NA)) |>
+    terra::aggregate(fact = 240 / 30),
   studyArea = sf::st_as_sf(terra::project(.area, terra::crs(rasterToMatch))),
   outputs = rbind(
     data.frame(objectName = c("harvestSummary", "harvestStats", "thlb", "yieldTablesCumulative", "yieldTablesId"),
