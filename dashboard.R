@@ -1,6 +1,6 @@
 ## A dashboard of one run: its maps on an OpenStreetMap background, with a time slider for the
 ## yearly ones (e.g. cumulative harvest), and its figures. Run from this folder.
-Require::Install("PredictiveEcology/SpaDES.shiny@development (>= 0.1.0.9009)") # 0 transparent; slider spans yearly outputs only; one-value maps match legend
+Require::Install("PredictiveEcology/SpaDES.shiny@development (>= 0.1.0.9010)") # 0 transparent; slider spans yearly outputs only; one-value maps match legend; warns when the tab lacks memory for maps
 
 ## The run to show: the `sim` in this R session; else the output folder of `.unit`;
 ## else run `.unit` first (global.R uses `.unit`; slow: ~20 min for TSA02, hours for TSA24)
