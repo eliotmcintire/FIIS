@@ -36,7 +36,7 @@ out <- SpaDES.project::setupProject(
               , "PredictiveEcology/Biomass_borealDataPrep@development"
               , "PredictiveEcology/Biomass_speciesFactorial@development" # the factorial table speciesParameters fits to
               , "PredictiveEcology/Biomass_speciesParameters@development" # fits growth curves to permanent sample plots
-              , "PredictiveEcology/Biomass_yieldTables@development"      # yield curves (init only)
+              , "PredictiveEcology/Biomass_yieldTables@development (>= 0.0.8.9003)"      # yield curves (init only)
               , "PredictiveEcology/thlbBC@development"                   # where logging is allowed (THLB)
               , "PredictiveEcology/harvestConstraintsBC@development"     # parks, habitat, scenic areas, watersheds
               , "PredictiveEcology/Biomass_core@development"             # growth
